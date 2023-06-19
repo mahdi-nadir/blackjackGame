@@ -7,10 +7,10 @@ export default class Board {
         this.mainDiv = document.querySelector('main')
         this.result = document.querySelector('.result')
         this.players = []
-        // this.winners = []
         this.currentPlayerTurn = 0
         this.currentPlayer
         this.nextPlayerTurn
+        this.count = 0
         this.init()
     }
 
@@ -53,12 +53,13 @@ export default class Board {
                         }
                         this.nextPlayerTurn = (this.nextPlayerTurn + 1) % this.players.length;
                     }
-                    console.log('currentTurnFromStop ' + this.currentPlayerTurn);
-                    console.log('nextFromStop ' + this.nextPlayerTurn);
+
                     // Update the current player turn to the next valid player
                     this.currentPlayerTurn = this.nextPlayerTurn;
                 }
-                this.annouceWinner()
+                if (this.count >= this.players.length) {
+                    this.annouceWinner()
+                }
             });
         });
     }
@@ -75,6 +76,7 @@ export default class Board {
 
                 if (idJoueur === this.currentPlayerTurn.toString() && this.currentPlayer.player.isPlaying && !this.currentPlayer.player.isOver && !this.currentPlayer.player.isStopping) {
                     this.players[idJoueur].player.isStopping = true;
+                    this.count++
                     playerDiv[idJoueur].style.opacity = '0.6';
                     playerDiv[idJoueur].style.border = 'yellow solid 3px';
                     btnPlay[idJoueur].setAttribute('disabled', 'disabled');
@@ -95,26 +97,37 @@ export default class Board {
                     // Update the current player turn to the next valid player
                     this.currentPlayerTurn = this.nextPlayerTurn;
                 }
-                this.annouceWinner()
+                if (this.count >= this.players.length) {
+                    this.annouceWinner()
+                }
             });
         });
     }
 
     annouceWinner() {
-        let potentialWinner = this.players.filter(player => player.player.isOver == false)
-        // if all players stop playing hnaaaaaaaaaaaa ndirou condition teni
-        if (potentialWinner.length == 1) {
+        let overs = this.players.filter(player => player.player.isOver == true)
+        let stoppers = this.players.filter(player => player.player.isStopping == true)
+        let stillPlayers = this.players.filter(player => player.player.isOver == false && player.player.isStopping == false)
+        let playersAndStoppers = [...stillPlayers, ...stoppers]
+        const playersLength = this.players.length
+
+        if (stillPlayers.length == 1 && overs.length == playersLength - playersAndStoppers.length) {
             this.result.style.display = 'block'
-            this.result.innerHTML = `Le gagnant est le joueur ${potentialWinner[0].id + 1} avec ${potentialWinner[0].player.score} points`
-        } else if (potentialWinner.length > 1) {
-            let scores = potentialWinner.map(plyr => plyr.player.score)
+            this.result.innerHTML = `Le gagnant est le joueur ${stillPlayers[0].id + 1} avec ${stillPlayers[0].player.score} points`
+        } else if (stoppers.length == 1 && overs.length == playersLength - playersAndStoppers.length) {
+            this.result.style.display = 'block'
+            this.result.innerHTML = `Le gagnant est le joueur ${stoppers[0].id + 1} avec ${stoppers[0].player.score} points`
+        } else if (playersAndStoppers.length > 1) {
+            let scores = playersAndStoppers.map(plyr => plyr.player.score)
             let maxScore = Math.max(...scores)
-            let winners = potentialWinner.filter(plyr => plyr.player.score == maxScore)
+            let winners = playersAndStoppers.filter(plyr => plyr.player.score == maxScore)
             this.result.style.display = "block"
-            this.result.innerHTML = `Les gagnants sont les joueurs ${winners.map(potentialWinner => potentialWinner.id + 1)} avec ${winners[0].player.score} points`
+            this.result.innerHTML = `Les gagnants sont les joueurs ${winners.map(overs => overs.id + 1)} avec ${winners[0].player.score} points`
+        } else if (overs.length = playersLength) {
+            this.result.style.display = "block"
+            this.result.innerHTML = `Tous les joueurs ont perdu`
         }
     }
-
 
     loseOrWin(score, id) {
         let playerDiv = document.querySelectorAll('.player')
@@ -122,19 +135,14 @@ export default class Board {
         let btnStop = document.querySelectorAll('.btnStop')
 
         if (score > 21) {
+            this.count++
             playerDiv[id].style.opacity = '0.3'
             playerDiv[id].style.border = 'red solid 3px'
             btnPlay[id].setAttribute('disabled', 'disabled')
             btnStop[id].setAttribute('disabled', 'disabled')
             this.players[id].player.isPlaying = false
             this.players[id].player.isOver = true
-            // this.players.splice(id, 1)
-        } /* else if (score == 21) {
-            playerDiv[id].style.border = 'green solid 3px'
-            btnPlay[id].setAttribute('disabled', 'disabled')
-            btnStop[id].setAttribute('disabled', 'disabled')
-            this.players[id].player.isPlaying = false
-        } */
+        }
     }
 
     createPlayers() {
