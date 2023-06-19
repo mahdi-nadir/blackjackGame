@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackJack Game</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="./assets/scripts/main.js" type="module"></script>
+</head>
+<body>
+    <div class="setPlayers">
+        <h1>Set number of players</h1>
+        <form action="">
+            <input type="text" name="nbPlayers" id="nbPlayers">
+            <input type="submit" value="Submit" id="startPlaying">
+        </form>
+        <span id="error" style="color: red;"></span>
+    </div>
+
+    <main></main>
+
+    <div class="result" style="display: none;">
+        Player <span id="nbOfPlayer"></span> won the Game
+    </div>
+</body>
+</html>
