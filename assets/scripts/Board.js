@@ -81,6 +81,7 @@ export default class Board {
                     playerDiv[idJoueur].style.border = 'yellow solid 3px';
                     btnPlay[idJoueur].setAttribute('disabled', 'disabled');
                     btnStop[idJoueur].setAttribute('disabled', 'disabled');
+                    playerDiv[idJoueur].style.pointerEvents = 'none'
 
                     this.loseOrWin(this.currentPlayer.player.score, idJoueur);
 
@@ -121,9 +122,14 @@ export default class Board {
             let scores = playersAndStoppers.map(plyr => plyr.player.score)
             let maxScore = Math.max(...scores)
             let winners = playersAndStoppers.filter(plyr => plyr.player.score == maxScore)
-            this.result.style.display = "block"
-            this.result.innerHTML = `Les gagnants sont les joueurs ${winners.map(overs => overs.id + 1)} avec ${winners[0].player.score} points`
-        } else if (overs.length = playersLength) {
+            if (winners.length == 1) {
+                this.result.style.display = "block"
+                this.result.innerHTML = `Le gagnant est le joueur ${winners[0].id + 1} avec ${winners[0].player.score} points`
+            } else {
+                this.result.style.display = "block"
+                this.result.innerHTML = `Les gagnants sont les joueurs ${winners.map(overs => overs.id + 1)} avec ${winners[0].player.score} points`
+            }
+        } else if (overs.length == playersLength) {
             this.result.style.display = "block"
             this.result.innerHTML = `Tous les joueurs ont perdu`
         }
@@ -142,6 +148,7 @@ export default class Board {
             btnStop[id].setAttribute('disabled', 'disabled')
             this.players[id].player.isPlaying = false
             this.players[id].player.isOver = true
+            playerDiv[id].style.pointerEvents = 'none'
         }
     }
 
