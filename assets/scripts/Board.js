@@ -9,6 +9,33 @@ export default class Board {
         this.result = document.querySelector('.result')
         this.scorePara = document.querySelector('.scoreParagraph')
         this.winnerImg = document.querySelector('.winnerImg')
+        this.bubbleMessages = [
+            "My turn!",
+            "It's my go!",
+            "I'm playing!",
+            "I'm in!",
+            "I'm here!",
+            "I'm ready to keep on going!",
+            "I'm next!",
+            "I'm up!",
+            "I'm on!",
+            "It's my shot!",
+            "It's my move!",
+            "I'm on deck!",
+            "I'm on the clock!",
+            "I'm on the spot!",
+            "I'm on the line!",
+            "It's my round!"
+        ];
+        this.bubbleMessagesAgain = [
+            "My turn again!",
+            "It's my go again!",
+            "I'm still playing!",
+            "I'm still in!",
+            "I'm still here!",
+            "My move again",
+            "I'm still next!"
+        ]
         this.players = []
         this.currentPlayerTurn = 0
         this.currentPlayer
@@ -18,6 +45,7 @@ export default class Board {
     }
 
     init() {
+        this.startMusic()
         this.createPlayers()
         let playerDiv = document.querySelectorAll('.player');
         for (let i = 1; i < this.players.length; i++) {
@@ -28,12 +56,17 @@ export default class Board {
         this.stop()
     }
 
+    startMusic() {
+        let audio = new Audio('assets/music/jazz.mp3');
+        audio.play();
+    }
 
     play() {
         let btnPlay = document.querySelectorAll('.btnPlay');
         let listOfCards = document.querySelectorAll('.player__cards');
         let score = document.querySelectorAll('.player__score');
         let playerDiv = document.querySelectorAll('.player');
+        let bubble = document.querySelectorAll('.bubble')
 
         btnPlay.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -64,6 +97,7 @@ export default class Board {
                         if (nextPlayer.player.isPlaying && !nextPlayer.player.isOver && !nextPlayer.player.isStopping) {
                             break; // Found the next valid player, exit the loop
                         }
+
                         this.nextPlayerTurn = (this.nextPlayerTurn + 1) % this.players.length;
                     }
 
@@ -73,11 +107,17 @@ export default class Board {
                         if (i == this.currentPlayerTurn) {
                             playerDiv[i].style.opacity = '1';
                             playerDiv[i].style.pointerEvents = 'auto'
+                            playerDiv[i].scrollIntoView({ behavior: 'smooth', block: 'center' })
+                            bubble[i].style.display = 'block'
+                            bubble[i].querySelector('.bubble__container__content__text').innerHTML = this.bubbleMessages[Math.floor(Math.random() * this.bubbleMessages.length)]
+                            setTimeout(() => {
+                                bubble[i].style.display = 'none'
+                            }, 2500);
                         } else {
                             playerDiv[i].style.pointerEvents = 'none'
+                            bubble[i].style.display = 'none'
                         }
                     }
-                    // playerDiv[this.currentPlayerTurn].style.backgroundColor = 'blue';
                 }
                 if (this.count >= this.players.length) {
                     this.annouceWinner()
@@ -90,6 +130,7 @@ export default class Board {
         let btnStop = document.querySelectorAll('.btnStop');
         let btnPlay = document.querySelectorAll('.btnPlay');
         let playerDiv = document.querySelectorAll('.player');
+        let bubble = document.querySelectorAll('.bubble')
 
         btnStop.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -130,11 +171,17 @@ export default class Board {
                         if (i == this.currentPlayerTurn) {
                             playerDiv[i].style.opacity = '1';
                             playerDiv[i].style.pointerEvents = 'auto'
+                            playerDiv[i].scrollIntoView({ behavior: 'smooth', block: 'center' })
+                            bubble[i].style.display = 'block'
+                            bubble[i].querySelector('.bubble__container__content__text').innerHTML = this.bubbleMessages[Math.floor(Math.random() * this.bubbleMessages.length)]
+                            setTimeout(() => {
+                                bubble[i].style.display = 'none'
+                            }, 2500);
                         } else {
                             playerDiv[i].style.pointerEvents = 'none'
+                            bubble[i].style.display = 'none'
                         }
                     }
-                    // playerDiv[this.currentPlayerTurn].style.backgroundColor = 'blue';
                 }
                 if (this.count >= this.players.length) {
                     this.annouceWinner()
@@ -185,7 +232,7 @@ export default class Board {
             } else {
                 let pics = winners.map(winner => {
                     let pic = document.createElement('img')
-                    pic.setAttribute('class', 'playerWinner')
+                    pic.setAttribute('class', 'playerWinners')
                     pic.src = winner.img
                     pic.alt = playerName[winner.id]
                     return pic
@@ -225,6 +272,24 @@ export default class Board {
     }
 
     createPlayers() {
+        let picBJ = document.querySelector('.imgBJ')
+        picBJ.style.display = 'none'
+        let startMessageDiv = document.querySelector('.startMsg')
+        let startMessages = [
+            "John initiates the game",
+            "John commences the game",
+            "John kicks off the game",
+            "John begins the game",
+            "John launches the game",
+            "John inaugurates the game",
+            "John takes the lead in the game",
+            "John starts off the game",
+            "John gets the game underway",
+            "John sets the game in motion"
+        ];
+        startMessageDiv.classList.add('startMessage')
+        startMessageDiv.innerHTML = startMessages[Math.floor(Math.random() * startMessages.length)]
+
         for (let i = 0; i < this.nbPlayers; i++) {
             let player = new Player(i);
             this.players.push(player);
@@ -234,6 +299,9 @@ export default class Board {
                 playerDOM = `
                 <div player-id=${i}>
                     <div class="player" data-id=${i}>
+                        <div class="bubble">
+                            <p class="bubble__container__content__text"></p>
+                        </div>
                         <img class="player__img" src="${this.players[i].img}" alt="player ${i + 1}">
                         <div class="player__status"></div>
                         <h2 class="player__name">${i == 0 ? 'John' : 'Barack'}</h2>
@@ -252,6 +320,9 @@ export default class Board {
                     <div player-id=${i}>
                         <ul class="player__cards"></ul>
                         <div class="player" data-id=${i}>
+                            <div class="bubble">
+                                <p class="bubble__container__content__text"></p>
+                            </div>
                             <img class="player__img" src="${this.players[i].img}" alt="player ${i + 1}">
                             <div class="player__status"></div>
                             <h2 class="player__name">${i == 1 ? 'Jenny' : 'William'}</h2>
@@ -266,6 +337,9 @@ export default class Board {
                     playerDOM = `
                     <div player-id=${i}>
                         <div class="player" data-id=${i}>
+                            <div class="bubble">
+                                <p class="bubble__container__content__text"></p>
+                            </div>
                             <img class="player__img" src="${this.players[i].img}" alt="player ${i + 1}">
                             <div class="player__status"></div>
                             <h2 class="player__name">${i == 1 ? 'Jenny' : 'William'}</h2>

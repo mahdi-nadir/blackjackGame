@@ -9,18 +9,42 @@
     <script src="./assets/scripts/main.js" type="module"></script>
 </head>
 <body>
+    <header>
+        <div class="imgBJ">
+            <img src="./assets/image/bj.png" alt="BlackJack">
+        </div>
+    </header>
     <div class="setPlayers">
         <h1>Set number of players</h1>
         <form action="">
-            <input type="number" name="nbPlayers" id="nbPlayers" min="2" max="4" value="4">
+            <input type="number" name="nbPlayers" id="nbPlayers" min="2" max="4" value="2">
             <div id="error"></div>
             <input type="submit" value="Start !" id="startPlaying">
         </form>
+        <p class="howToPlay">How to play?</p>
     </div>
 
     <main>
         
     </main>
+
+    <div class="startMsg"></div>
+
+    <div class="rules">
+        <div class="result">
+            <h3 id="rules">Rules:</h3>
+            <p class="explanation">
+                The goal of the game is to get as close to 21 as possible without going over 21.<br>
+                Each player is dealt one card to start the game and each one is given the opportunity to hit or stand.<br>
+                If a player hits, he will be dealt another card.<br>
+                If he stands, he will not be dealt another card.<br>
+                Face cards (Jack, Queen and King) are worth 10, Aces are worth 11, and all other cards are worth their face value.<br>
+                If a player goes over 21 he busts. he only wins when all the rest of players are busted or he has a hand value closer to 21 than any other player who hasn't busted. In case of a tie between two or more players, it's simply considered a "Draw".<br><br>
+                Have a great time playing Blackjack!
+            </p>
+            <button class="btnGotIt">Got it!</button>
+        </div>
+    </div>
 
     <div class="overlay">
         <div class="result">
@@ -30,5 +54,9 @@
             <button class="btnReset">Play again!</button>
         </div>
     </div>
+
+    <footer>
+        <p>Designed and created with <span id="heart">❤</span> by <a href="https://www.linkedin.com/in/mahdi-nadir/" target="_blank">Mahdi</a></p>
+    </footer>
 </body>
 </html>

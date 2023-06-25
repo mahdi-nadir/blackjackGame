@@ -14,10 +14,40 @@
 body {
     background-image: url(./assets/image/blackjack_board2.jpeg);
     background-size: cover;
-    /* background-repeat: no-repeat; */
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
-    height: 100%;
+    height: 100vh;
+    /* overflow-y: hidden; */
+}
+
+.imgBJ {
+    max-width: 500px;
+}
+
+.imgBJ img {
+    max-width: 80%;
+    position: fixed;
+    top: 3%;
+    left: 49%;
+    transform: translate(-49%, -3%);
+    z-index: 100;
+    transition: transform 1s ease-in-out
+}
+
+.imgBJ:hover img {
+    transform: translate(-49%, -3%) scale(1.1);
+}
+
+.howToPlay {
+    margin-top: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: transform .1s ease-in-out
+}
+
+.howToPlay:hover {
+    transform: scale(1.1);
 }
 
 
@@ -78,9 +108,9 @@ body {
 /* Main Section */
 div[player-id="0"] {
     position: fixed;
-    top: 8%;
+    top: 10%;
     left: 50%;
-    transform: translate(-50%, -8%);
+    transform: translate(-50%, -10%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -210,6 +240,7 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     border: 4px solid rgba(255, 255, 255, 0.8);
     border-radius: 6px;
     color: white;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .player__img {
@@ -277,7 +308,7 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
 
 
 /* Result Section */
-.overlay {
+.overlay, .rules {
     position: fixed;
     top: 0;
     left: 0;
@@ -305,6 +336,10 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     background-color: rgba(0, 0, 0, 0.9);
 }
 
+.rules .result{
+    width: 80%;
+}
+
 #gameOver {
     font-style: italic;
     padding-bottom: 10px;
@@ -315,7 +350,15 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     height: 200px;
 }
 
-.btnReset {
+.playerWinners {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.btnReset, .btnGotIt {
     display: block;
     margin: auto;
     background-color: #4CAF50;
@@ -329,7 +372,7 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     font-size: 16px;
 }
 
-.btnReset:hover {
+.btnReset:hover, .btnGotIt:hover {
     background-color: #fff;
     color: #4CAF50;
 }
@@ -339,12 +382,137 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     font-weight: bold;
 }
 
+.explanation {
+    font-size: 15pt;
+    line-height: 30px;
+    font-style: italic;
+    width: 90%;
+    margin: auto;
+}
+
+#rules {
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
 .winnerImg img {
     width: 200px;
     height: 200px;
     border-radius: 6px;
     border: 4px solid rgba(255, 255, 255, 0.8);
     margin: 20px auto;
+}
+
+.bubble {
+    position: absolute;
+    left: 15%;
+    top: -30%;
+    width: fit-content;
+    background-color: #fff;
+    border-radius: 6px;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 12pt;
+    padding: 10px;
+    z-index: 99;
+    display: none;
+    animation: zoomOut .2s ease-in-out, fadeOut .2s linear forwards;
+}
+
+.bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 0%;
+    border-width: 20px 20px 0;
+    border-style: solid;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 99;
+}
+
+@keyframes zoomOut {
+    0% {
+        transform: translate(-15%, -30%) scale(1.5);
+    }
+    100% {
+        transform: translate(-15%, -30%) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.startMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    animation: zoomIn 3s ease-in-out, fadeIn 3s linear forwards;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 50%
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: translate(-50%, -50%) scale(.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translate(-50%, -3%);
+    text-align: center;
+    color: white;
+    font-size: 20pt;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border: 2px white solid;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+footer a {
+    color: #ccc;
+}
+
+footer a:hover {
+    color: #00f;
+}
+
+#heart {
+    color: red;
 }
 
 @media screen and (max-width: 1550px) {
@@ -403,8 +571,8 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
         font-size: 20pt;
     }
 
-    .scoreParagraph {
-        font-size: 20pt;
+    .scoreParagraph, .explanation {
+        font-size: 14pt;
     }
 }
 
@@ -468,8 +636,13 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
         font-size: 14pt;
     }
 
-    .scoreParagraph {
+    .scoreParagraph, .explanation {
         font-size: 12pt;
+    }
+
+    .explanation {
+        font-size: 10pt;
+        line-height: 20px;
     }
 
     .winnerImg img {
@@ -481,5 +654,9 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
 
     .result {
         min-width: 200px;
+    }
+
+    footer {
+        font-size: 12pt;
     }
 }
