@@ -12,18 +12,23 @@
     <div class="setPlayers">
         <h1>Set number of players</h1>
         <form action="">
-            <input type="text" name="nbPlayers" id="nbPlayers">
-            <input type="submit" value="Submit" id="startPlaying">
+            <input type="number" name="nbPlayers" id="nbPlayers" min="2" max="4" value="4">
+            <div id="error"></div>
+            <input type="submit" value="Start !" id="startPlaying">
         </form>
-        <span id="error" style="color: red;"></span>
     </div>
 
     <main>
         
     </main>
 
-    <div class="result" style="display: none;">
-        player <span></span> won the game
+    <div class="overlay">
+        <div class="result">
+            <h2 id="gameOver">Game over !</h2>
+            <div class="winnerImg"></div>
+            <p class="scoreParagraph"></p>
+            <button class="btnReset">Play again!</button>
+        </div>
     </div>
 </body>
 </html>

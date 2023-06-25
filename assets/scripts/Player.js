@@ -6,7 +6,8 @@ export default class Player {
         this.player = this.createPlayer()
         this.isPlaying = true;
         this.isStopping = false;
-        this.isOver = false
+        this.isOver = false;
+        this.img = `assets/image/players/player${id}.jpg`
     }
 
     createPlayer() {
@@ -16,15 +17,12 @@ export default class Player {
             score: 0,
             isPlaying: true,
             isStopping: false,
-            isOver: false
+            isOver: false,
+            img: this.img
         }
     }
 
     playing() {
         return this.isPlaying
     }
-
-    // stopping() {
-    //     return !this.isPlaying
-    // }
 }

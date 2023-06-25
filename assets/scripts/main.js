@@ -18,5 +18,4 @@ btnPlay.addEventListener('click', (e) => {
     }
     let board = new Board(nbPlayers)
     setPlayersForm.classList.add('hidden')
-    // board.init()
 })
