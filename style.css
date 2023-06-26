@@ -449,6 +449,13 @@ div[player-id="2"] .player__cards .card, div[player-id="3"] .player__cards .card
     text-decoration: underline;
 }
 
+.rules span {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 12pt;
+    color: red;
+}
+
 .winnerImg img {
     width: 200px;
     height: 200px;
@@ -698,13 +705,23 @@ footer a:hover {
     }
 
     .explanation {
-        font-size: 10pt;
+        font-size: 9pt;
         line-height: 20px;
         padding: 0;
     }
 
     .rules {
         padding: 4px;
+    }
+
+    #rules {
+        font-size: 10pt;
+    }
+
+    .rules span {
+        display: block;
+        font-size: 9pt;
+        line-height: 20px;
     }
 
     .winnerImg img {
