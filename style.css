@@ -59,7 +59,7 @@ body {
 }
 
 .musicPlayer {
-    position: absolute;
+    position: fixed;
     bottom: 3%;
     left: 3%;
     z-index: 100;
