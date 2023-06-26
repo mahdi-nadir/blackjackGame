@@ -9,6 +9,7 @@ export default class Board {
         this.result = document.querySelector('.result')
         this.scorePara = document.querySelector('.scoreParagraph')
         this.winnerImg = document.querySelector('.winnerImg')
+        this.musicPlayer = document.querySelector('.musicPlayer')
         this.bubbleMessages = [
             "My turn!",
             "It's my go!",
@@ -57,8 +58,55 @@ export default class Board {
     }
 
     startMusic() {
-        let audio = new Audio('assets/music/jazz.mp3');
-        audio.play();
+        let nextSong = document.querySelector('#nextSong')
+        let playSong = document.querySelector('#stopPlay')
+
+        let firstSong = 'assets/music/song1.mp3'
+        let secondSong = 'assets/music/song2.mp3'
+        let thirdSong = 'assets/music/song3.mp3'
+        let fourthSong = 'assets/music/song4.mp3'
+        let fifthSong = 'assets/music/song5.mp3'
+        let sixthSong = 'assets/music/song6.mp3'
+        let seventhSong = 'assets/music/song7.mp3'
+        let eighthSong = 'assets/music/song8.mp3'
+        let ninthSong = 'assets/music/song9.mp3'
+        let tenthSong = 'assets/music/song10.mp3'
+        let eleventhSong = 'assets/music/song11.mp3'
+        let audioArray = [
+            firstSong,
+            secondSong,
+            thirdSong,
+            fourthSong,
+            fifthSong,
+            sixthSong,
+            seventhSong,
+            eighthSong,
+            ninthSong,
+            tenthSong,
+            eleventhSong
+        ]
+
+        let randomSong = audioArray[Math.floor(Math.random() * audioArray.length)]
+        let audio = new Audio(randomSong)
+        audio.play()
+
+        playSong.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play()
+                playSong.setAttribute('title', 'Pause')
+                playSong.innerHTML = '<i class="fa-solid fa-pause"></i>'
+            } else {
+                audio.pause()
+                playSong.setAttribute('title', 'Play')
+                playSong.innerHTML = '<i class="fa-solid fa-play"></i>'
+            }
+        })
+
+        nextSong.addEventListener('click', () => {
+            let nextSong = audioArray[Math.floor(Math.random() * audioArray.length)]
+            audio.src = nextSong
+            audio.play()
+        })
     }
 
     play() {
@@ -272,6 +320,7 @@ export default class Board {
     }
 
     createPlayers() {
+        this.musicPlayer.style.display = 'block'
         let picBJ = document.querySelector('.imgBJ')
         picBJ.style.display = 'none'
         let startMessageDiv = document.querySelector('.startMsg')
@@ -307,8 +356,8 @@ export default class Board {
                         <h2 class="player__name">${i == 0 ? 'John' : 'Barack'}</h2>
                         <div class="player__score">Total: 0</div>
                         <div class="buttons-wrapper">
-                            <button id="btnPlay" class="btnPlay">Play</button>
-                            <button id="btnStop" class="btnStop">Stop</button>
+                            <button id="btnPlay" class="btnPlay">Hit</button>
+                            <button id="btnStop" class="btnStop">Stand</button>
                         </div>
                     </div>
                     <ul class="player__cards"></ul>
@@ -328,8 +377,8 @@ export default class Board {
                             <h2 class="player__name">${i == 1 ? 'Jenny' : 'William'}</h2>
                             <div class="player__score">Total: 0</div>
                             <div class="buttons-wrapper">
-                                <button id="btnPlay" class="btnPlay">Play</button>
-                                <button id="btnStop" class="btnStop">Stop</button>
+                                <button id="btnPlay" class="btnPlay">Hit</button>
+                                <button id="btnStop" class="btnStop">Stand</button>
                             </div>
                         </div>
                     </div>`;
@@ -345,8 +394,8 @@ export default class Board {
                             <h2 class="player__name">${i == 1 ? 'Jenny' : 'William'}</h2>
                             <div class="player__score">Total: 0</div>
                             <div class="buttons-wrapper">
-                                <button id="btnPlay" class="btnPlay">Play</button>
-                                <button id="btnStop" class="btnStop">Stop</button>
+                                <button id="btnPlay" class="btnPlay">Hit</button>
+                                <button id="btnStop" class="btnStop">Stand</button>
                             </div>
                         </div>
                         <ul class="player__cards"></ul>
@@ -359,8 +408,10 @@ export default class Board {
             this.mainDiv.style.gridTemplateRows = "1fr 1fr"
         } else if (this.players.length == 3) {
             this.mainDiv.style.gridTemplateRows = "1fr 1fr 1fr"
+            document.body.style.overflow = 'auto'
         } else {
             this.mainDiv.style.gridTemplateRows = "1fr 1fr 1fr 1fr"
+            document.body.style.overflow = 'auto'
         }
     }
 }
