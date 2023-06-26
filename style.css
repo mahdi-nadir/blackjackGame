@@ -688,6 +688,11 @@ footer a:hover {
     .explanation {
         font-size: 10pt;
         line-height: 20px;
+        padding: 5px;
+    }
+
+    .rules {
+        padding: 8px;
     }
 
     .winnerImg img {
